@@ -1,0 +1,77 @@
+
+file -> new -> spring starter project -> 
+		2 dep -> 1) spring web 
+				 2) spring boot dev tools 
+				 
+				 
+	create folders 
+	src->main->  
+				webapp 
+					WEB-INF
+						views 
+
+	src->main->java->com->
+						controller 
+						bean
+						dao 
+
+	now add tomcat embeded jasper 
+	
+	
+	configuration-> project 
+			server port -> 
+			jsp->webapp->WEB-INF/views
+	application.properties {resources}								
+									
+
+--------------------------------------------------------------------------------
+
+
+we dont required tomcat in spring boot 
+why?
+because we have integrated tomcat - embeded tomcat -> in spring boot  
+
+can we change? tomcat to any other? 
+Yes
+
+How? 
+server->jar -> add 
+
+where to add jar? or how to get jar? 
+maven:pom.xml 
+
+how to get jar? 
+		1) jboss 
+		2) tomcat 
+		3) tomcat embeded jasper 
+
+jsp -> we need to add 1 jar ->
+					tomcat embeded jasper 
+					
+google.com -> type 
+					tomcat embeded jasper maven 
+					
+--------------------------------------------------------------------------------------
+validation -> 
+
+project -> right click -> spring -> add/edit starter -> type validation -> tick -> next 
+-> pom.xml -> tick -> finish 
+
+
+
+StudentBean 
+
+	
+	String firstName; 
+	
+	String lastName; 
+
+
+
+
+
+
+
+
+
+
