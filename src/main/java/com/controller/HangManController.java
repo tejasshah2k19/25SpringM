@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +45,7 @@ public class HangManController {
 		session.setAttribute("wb", wb);
 		session.setAttribute("word", wb.getWord());
 		session.setAttribute("life", 3);
-		session.setAttribute("guessCorrectChar", new ArrayList<>());
+		session.setAttribute("guessCorrectChar", new ArrayList<Character>());
 		return "Game";
 	}
 
@@ -53,13 +54,30 @@ public class HangManController {
 		String word = (String)session.getAttribute("word");
 		int life = (int)session.getAttribute("life");
 		
+		ArrayList<Character> guessCorrectChar =(ArrayList<Character>) session.getAttribute("guessCorrectChar");
+
+		HashSet<Character> hs = new HashSet<>();
+		
+		for(char x:word.toLowerCase().toCharArray()) {
+			hs.add(x);
+		}
+		System.out.println("hs =>"+hs);
+		
 		if(word.toLowerCase().contains(guessChar.toLowerCase())) {
 				//compare => 
-			
+				guessCorrectChar.add(guessChar.toLowerCase().charAt(0));//N 
+				session.setAttribute("guessCorrectChar",guessCorrectChar);
+
+				
+				if(guessCorrectChar.size() == hs.size()) {
+					return "Winner";
+				}
+				System.out.println(guessCorrectChar);
 		}else {
 			life--;
 			session.setAttribute("life", life);
 		}
+		
 		return "Game";
 	}
 
