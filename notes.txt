@@ -1,0 +1,24 @@
+db insertion --> 
+
+	pom.xml 
+	1 -> add mysql connector 
+	2 -> add spring data jdbc 
+	
+	
+	connection
+	preparedstmt 
+	
+	
+create database spring25m; 
+
+use spring25m; 
+
+create table users(
+	userId int primary key auto_increment,
+	firstName varchar(30),
+	lastName varchar(30),
+	email varchar(30),
+	password varchar(30),
+	gender varchar(6),
+	city varchar(30)
+);

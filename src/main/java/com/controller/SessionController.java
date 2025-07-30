@@ -1,0 +1,33 @@
+package com.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.bean.UserBean;
+
+@Controller
+public class SessionController {
+
+	@Autowired
+	JdbcTemplate stmt;
+
+	@GetMapping("signup")
+	public String signup() {
+		return "Signup"; // jsp name
+	}
+
+	@PostMapping("register")
+	public String register(UserBean userBean) {
+		// read data -- done
+		// validation --done
+		// db insertion
+		// query
+		stmt.update("insert into users (firstName,lastName,email,password,gender,city) values (?,?,?,?,?,?)",
+				userBean.getFirstName(), userBean.getLastName(), userBean.getEmail(), userBean.getPassword(),
+				userBean.getGender(), userBean.getCity());
+		return "Login";
+	}
+}
