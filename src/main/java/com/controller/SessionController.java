@@ -14,11 +14,22 @@ public class SessionController {
 	@Autowired
 	JdbcTemplate stmt;
 
+	
+	@GetMapping("/")
+	public String welcome() {
+		return "Login";
+	}
+	
 	@GetMapping("signup")
 	public String signup() {
 		return "Signup"; // jsp name
 	}
 
+	@GetMapping("login")
+	public String login() {
+		return "Login";
+	}
+	
 	@PostMapping("register")
 	public String register(UserBean userBean) {
 		// read data -- done

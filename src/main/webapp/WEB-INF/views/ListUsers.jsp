@@ -13,12 +13,27 @@
 	<%
 	List<UserBean> users = (List<UserBean>) request.getAttribute("users");
 	%>
-	
-	<%for(UserBean u:users){ %>
-	
-		<%=u.getUserId() %>|<%=u.getFirstName() %> | <%=u.getEmail() %><br>
-	
-	<%} %>
-	
+
+	<table border="1">
+		<tr>
+			<th>UserId</th>
+			<th>FirstName</th>
+			<th>Email</th>
+			<th>Action</th>
+		</tr>
+
+		<%
+		for (UserBean u : users) {
+		%>
+		<tr>
+			<td><%=u.getUserId()%></td>
+			<td><%=u.getFirstName()%></td>
+			<td><%=u.getEmail()%></td>
+			<td><a href="deleteuser?userId=<%=u.getUserId()%>">Delete</a></td>
+		</tr>
+		<%
+		}
+		%>
+	</table>
 </body>
 </html>

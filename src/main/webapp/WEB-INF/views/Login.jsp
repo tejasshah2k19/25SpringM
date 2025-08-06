@@ -68,6 +68,9 @@
 
         <input type="submit" value="Login">
     </form>
+    <div>
+    	New User? <a href="signup">Register</a>
+    </div>
 </div>
 
 </body>
