@@ -22,3 +22,66 @@ create table users(
 	gender varchar(6),
 	city varchar(30)
 );
+
+
+password encryption => 
+	algo ->
+			bcrypt
+			
+			 Signup.jsp -> password input -> submit -> Controller ->
+			 		controller -> 
+			 				read 
+			 				validate
+			 				encrypt password 
+			 				db insert 
+			 		
+password encryption steps :- 
+		
+		step 1: bcrypt 
+				spring crypto 
+				
+				<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
+					<dependency>
+					    <groupId>org.springframework.security</groupId>
+					    <artifactId>spring-security-crypto</artifactId>
+					    <version>6.5.2</version>
+					</dependency>  
+				pom.xml 
+		
+			 		
+	step 2: 			 
+			 Controller -> 
+						object 
+						encode() 
+		BCryptPasswordEncoder passwordEncoder  = new BCryptPasswordEncoder();
+		String ePwd = passwordEncoder.encode(userBean.getPassword());
+		userBean.setPassword(ePwd);
+		
+		 alter table user modify password varchar(128);
+
+***		 
+now lets eject password encoder with singleton 
+
+	for that we have to initialize using @Bean
+	 
+		@Bean // class -> spring -> memory -> singleton
+			PasswordEncoder getEncoder() {
+				return new BCryptPasswordEncoder();
+			}
+
+now you can ask object using @Autowired in controller 
+	@Autowired 
+	PasswordEncoder  passwordEncoder;
+
+------------------------------------------------------------------------------------------						 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
