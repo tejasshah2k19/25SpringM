@@ -46,9 +46,26 @@ public class UserController {
 	@PostMapping("search")
 	public String userSearch(String firstName, Model model) {
 		List<UserBean> users = stmt.query("select * from users where firstName like  ? ",
-				new BeanPropertyRowMapper(UserBean.class), new Object[] { "%"+firstName+"%" });
+				new BeanPropertyRowMapper(UserBean.class), new Object[] { "%" + firstName + "%" });
 		model.addAttribute("users", users);
 		return "ListUsers";
 	}
+
+	@GetMapping("viewuser")
+	public String viewUser(Integer userId,Model model) {
+		try {
+			UserBean user = stmt.queryForObject("select * from users where userId = ? ",
+					new BeanPropertyRowMapper<>(UserBean.class), new Object[] { userId });
+		model.addAttribute("user",user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "ViewUser";
+	}
+
+	// update() insert , delete
+	// query() select * from users
+	// queryForObject() select * from users where userId = ?
 
 }
