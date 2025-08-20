@@ -59,7 +59,7 @@ password encryption steps :-
 		
 		 alter table user modify password varchar(128);
 
-***		 
+***>		 
 now lets eject password encoder with singleton 
 
 	for that we have to initialize using @Bean
@@ -75,9 +75,19 @@ now you can ask object using @Autowired in controller
 
 ------------------------------------------------------------------------------------------						 
 			 
-			 
-			 
-			 
+	how to login / authenticate user 
+			with password encryption 
+			
+	Login.jsp	
+			email 
+			password 
+			
+			submit -> controller ->
+			
+	SessionController
+			read 
+							
+			
 			 
 			 
 			 

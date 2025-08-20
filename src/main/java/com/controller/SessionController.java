@@ -1,10 +1,12 @@
 package com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -48,4 +50,27 @@ public class SessionController {
 				userBean.getGender(), userBean.getCity());
 		return "Login";
 	}
+
+	@PostMapping("authenticate")
+	public String authenticate(String email, String password, Model model) {
+
+		try {
+			UserBean userBean = stmt.queryForObject("select * from users where email = ? ",
+					new BeanPropertyRowMapper<>(UserBean.class), new Object[] { email });
+
+			System.out.println("email valid");
+			// password check
+
+			if (passwordEncoder.matches(password, userBean.getPassword())) {
+				System.out.println("Email password valid");
+				return "Welcome";
+
+			}
+		} catch (Exception e) {
+
+		}
+		model.addAttribute("error", "Invalid Credentials");
+		return "Login";
+	}
+
 }
