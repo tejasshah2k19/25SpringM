@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.bean.UserBean;
+import com.service.MailerService;
 
 @Controller
 public class SessionController {
@@ -21,6 +22,9 @@ public class SessionController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	@Autowired
+	MailerService mailerService;
+	
 	@GetMapping("/")
 	public String welcome() {
 		return "Login";
@@ -48,6 +52,10 @@ public class SessionController {
 		stmt.update("insert into users (firstName,lastName,email,password,gender,city) values (?,?,?,?,?,?)",
 				userBean.getFirstName(), userBean.getLastName(), userBean.getEmail(), userBean.getPassword(),
 				userBean.getGender(), userBean.getCity());
+
+		//send welcome mail 
+		mailerService.sendWelcomeMail(userBean.getFirstName(), userBean.getEmail());
+		 
 		return "Login";
 	}
 
