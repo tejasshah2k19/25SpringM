@@ -59,17 +59,16 @@ input[type="submit"]:hover {
 
 	<div class="login-container">
 		${error }
-		<h2>Login</h2>
-		<form action="authenticate" method="post">
+		<h2>ForgetPassword</h2>
+		<form action="sendotp" method="post">
 			<label for="email">Email:</label> <input type="email" name="email"
-				id="email" required> <label for="password">Password:</label>
-			<input type="password" name="password" id="password" required>
-
-			<input type="submit" value="Login">
+				id="email" required>  
+ 
+			<input type="submit" value="Reset Password">
 		</form>
 		<div>
 			New User? <a href="signup">Register</a> | 
-			Forget Password? <a href="forgetpassword">Help!</a>
+			Existing User? <a href="login">Login!</a>
 		</div>
 	</div>
 

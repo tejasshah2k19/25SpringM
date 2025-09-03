@@ -46,4 +46,29 @@ public class MailerService {
 
 	}
 
+	
+	public void sendOtpForForgetPassword(String otp, String email) {
+
+		MimeMessage message = mailSender.createMimeMessage();
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			helper.setTo(email);
+			helper.setSubject("CampusCare : Reset Password OTP ");
+
+			ClassPathResource resource = new ClassPathResource("templates/forgetpassword.html");
+			
+			String template = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+		
+			template  = template.replace("{{otp_code}}", otp);	
+			helper.setText(template, true);
+
+			mailSender.send(message);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.bean.UserBean;
+import com.dao.UserDao;
 import com.service.MailerService;
 
 @Controller
@@ -24,7 +25,10 @@ public class SessionController {
 
 	@Autowired
 	MailerService mailerService;
-	
+
+	@Autowired
+	UserDao userDao;
+
 	@GetMapping("/")
 	public String welcome() {
 		return "Login";
@@ -53,9 +57,9 @@ public class SessionController {
 				userBean.getFirstName(), userBean.getLastName(), userBean.getEmail(), userBean.getPassword(),
 				userBean.getGender(), userBean.getCity());
 
-		//send welcome mail 
+		// send welcome mail
 		mailerService.sendWelcomeMail(userBean.getFirstName(), userBean.getEmail());
-		 
+
 		return "Login";
 	}
 
@@ -79,6 +83,30 @@ public class SessionController {
 		}
 		model.addAttribute("error", "Invalid Credentials");
 		return "Login";
+	}
+
+	@GetMapping("forgetpassword")
+	public String forgetpassword() {
+		return "ForgetPassword";
+	}
+
+	@PostMapping("sendotp")
+	public String sendOtp(String email, Model model) {
+
+		// email check db
+		UserBean userBean = userDao.findByEmail(email);
+
+		if (userBean == null) {
+			model.addAttribute("error", "Invalid Email");
+			return "ForgetPassword";
+		} else {
+			// otp generate
+			String otp = "RDF124";
+			// send mail
+			mailerService.sendOtpForForgetPassword(otp, email);
+			return "ChangePassword"; //new password , otp -> submit -> 
+
+		}
 	}
 
 }
