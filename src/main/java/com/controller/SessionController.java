@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.bean.UserBean;
 import com.dao.UserDao;
 import com.service.MailerService;
+import com.service.OtpGeneratorService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class SessionController {
@@ -28,6 +31,9 @@ public class SessionController {
 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	OtpGeneratorService otpService;
 
 	@GetMapping("/")
 	public String welcome() {
@@ -91,7 +97,7 @@ public class SessionController {
 	}
 
 	@PostMapping("sendotp")
-	public String sendOtp(String email, Model model) {
+	public String sendOtp(String email, Model model, HttpSession session) {
 
 		// email check db
 		UserBean userBean = userDao.findByEmail(email);
@@ -101,11 +107,34 @@ public class SessionController {
 			return "ForgetPassword";
 		} else {
 			// otp generate
-			String otp = "RDF124";
+			String otp = otpService.generateOtp(6);
+
+			// session
+			session.setAttribute("otp", otp);
+			session.setAttribute("email", email);
 			// send mail
 			mailerService.sendOtpForForgetPassword(otp, email);
-			return "ChangePassword"; //new password , otp -> submit -> 
+			return "ChangePassword"; // new password , otp -> submit ->
 
+		}
+	}
+
+	@PostMapping("changepassword")
+	public String changePassword(String otp, String password, HttpSession session) {
+		// email
+		String email = (String) session.getAttribute("email");
+
+		// input otp
+		// input password
+
+		// origin otp
+		String originalOtp = (String) session.getAttribute("otp");
+
+		if (originalOtp.equals(otp)) {
+			// change password in db using update query 
+			return "Login";
+		} else {
+			return "ForgetPassword";
 		}
 	}
 
