@@ -59,7 +59,7 @@ input[type="submit"]:hover {
 
 	<div class="login-container">
 		${error }
-		<h2>Login</h2>
+		<h2>Change Password</h2>
 		<form action="changepassword" method="post">
 
 			<label for="password">Password:</label> <input type="password"

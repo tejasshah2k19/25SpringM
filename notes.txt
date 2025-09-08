@@ -117,11 +117,34 @@ service class ->
 		
 
 
+-----------------------------------------------------------
+file uploading 
 
 
+	1) input type="file" name="profilePic" 
+	
+	2) <form encType="multipart/form-data"  method="post"> 
 
+	3) controller -> methodPostMapping(MultiplartFile  profilePic)
 
-
+	cloudinary ->	
+	4)	jar , lib -> 
+				  <dependency>
+				        <groupId>com.cloudinary</groupId>
+				        <artifactId>cloudinary-http44</artifactId>
+				        <version>1.39.0</version>
+   				 </dependency>
+   
+   5) cloudinary credentials
+   		signup-> login -> api key , clould name , secret 
+   		cloudName=dzko8yjs6
+   		apiKey=812235955324293
+   		secret=myUUXHnsXifcK0DyinTVjQKan_U
+   		
+   		
+  6) cloudinary config class 
+   		 
+   
 
 
 

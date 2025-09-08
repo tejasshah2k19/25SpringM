@@ -1,16 +1,20 @@
 package com.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bean.UserBean;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.dao.UserDao;
 import com.service.MailerService;
 import com.service.OtpGeneratorService;
@@ -31,9 +35,12 @@ public class SessionController {
 
 	@Autowired
 	UserDao userDao;
-	
+
 	@Autowired
 	OtpGeneratorService otpService;
+
+	@Autowired
+	Cloudinary cloudinary;
 
 	@GetMapping("/")
 	public String welcome() {
@@ -51,20 +58,35 @@ public class SessionController {
 	}
 
 	@PostMapping("register")
-	public String register(UserBean userBean) {
+	public String register(UserBean userBean, MultipartFile profilePic) {
 		// read data -- done
 		// validation --done
 		// encrypt
+
+		System.out.println(profilePic.getOriginalFilename());
+		System.out.println(profilePic.getContentType());
+		System.out.println(profilePic.getSize());
+
+		try {
+			// upload profilePic to cloudinary server ->
+			Map uploadResult  = cloudinary.uploader().upload(profilePic.getBytes(), ObjectUtils.emptyMap());
+			
+			String path = uploadResult.get("secure_url").toString();
+			System.out.println(path);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String ePwd = passwordEncoder.encode(userBean.getPassword());
 		userBean.setPassword(ePwd);
 		// db insertion
 		// query
-		stmt.update("insert into users (firstName,lastName,email,password,gender,city) values (?,?,?,?,?,?)",
-				userBean.getFirstName(), userBean.getLastName(), userBean.getEmail(), userBean.getPassword(),
-				userBean.getGender(), userBean.getCity());
+//		stmt.update("insert into users (firstName,lastName,email,password,gender,city) values (?,?,?,?,?,?)",
+//				userBean.getFirstName(), userBean.getLastName(), userBean.getEmail(), userBean.getPassword(),
+//				userBean.getGender(), userBean.getCity());
 
 		// send welcome mail
-		mailerService.sendWelcomeMail(userBean.getFirstName(), userBean.getEmail());
+//		mailerService.sendWelcomeMail(userBean.getFirstName(), userBean.getEmail());
 
 		return "Login";
 	}
@@ -112,8 +134,16 @@ public class SessionController {
 			// session
 			session.setAttribute("otp", otp);
 			session.setAttribute("email", email);
-			// send mail
-			mailerService.sendOtpForForgetPassword(otp, email);
+
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					// send mail
+					mailerService.sendOtpForForgetPassword(otp, email);
+				}
+			});
+			t.start();
+
 			return "ChangePassword"; // new password , otp -> submit ->
 
 		}
@@ -131,7 +161,7 @@ public class SessionController {
 		String originalOtp = (String) session.getAttribute("otp");
 
 		if (originalOtp.equals(otp)) {
-			// change password in db using update query 
+			// change password in db using update query
 			return "Login";
 		} else {
 			return "ForgetPassword";

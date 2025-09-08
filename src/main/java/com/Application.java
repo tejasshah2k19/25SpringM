@@ -17,4 +17,7 @@ public class Application {
 	PasswordEncoder getEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+
+	
 }

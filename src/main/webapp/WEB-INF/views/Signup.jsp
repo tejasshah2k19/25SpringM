@@ -68,21 +68,22 @@ input[type="submit"]:hover {
 
 	<div class="signup-container">
 		<h2>Signup Form</h2>
-		<form action="register" method="post">
+		<form action="register" enctype="multipart/form-data" method="post">
 			<label for="firstName">First Name:</label> <input type="text"
 				name="firstName" id="firstName" required> <label
 				for="lastName">Last Name:</label> <input type="text" name="lastName"
 				id="lastName" required> <label for="email">Email:</label> <input
 				type="email" name="email" id="email" required> <label
 				for="password">Password:</label> <input type="password"
-				name="password" id="password" required> <label>Gender:</label>
-			<div class="gender-options">
+				name="password" id="password" required> 
+				
+		<label>Gender:</label>
+			<div class=" ">
 				<input type="radio" name="gender" value="Male" id="male" required>
-				<label for="male">Male</label> <input type="radio" name="gender"
-					value="Female" id="female"> <label for="female">Female</label>
+				 Male : <input type="radio" name="gender"
+					value="Female" id="female">  Female: 
 
-				<input type="radio" name="gender" value="Other" id="other">
-				<label for="other">Other</label>
+				 
 			</div>
 
 			<label for="city">City:</label> <select name="city" id="city"
@@ -93,7 +94,18 @@ input[type="submit"]:hover {
 				<option value="Bangalore">Bangalore</option>
 				<option value="Ahmedabad">Ahmedabad</option>
 				<option value="Hyderabad">Hyderabad</option>
-			</select> <input type="submit" value="Sign Up">
+			</select> 
+			
+			
+			
+			<label>ProfilePic:</label>
+			<input type="file" name="profilePic"/>	
+			
+			
+			<input type="submit" value="Sign Up">
+		
+		
+		
 		</form>
 		<div>
 			Existing User?<a href="login">Login</a>
